@@ -61,3 +61,25 @@ def get_filtered_data():
     us_stocks = us_stocks[columns]
 
     return df, buy_table, watch_table, us_stocks
+
+def overall_market_data():
+    market_data = pd.read_csv('data/market.csv', header=None)
+    columns = ['Stock Name', 'Previous Close', 'Current Price', 'difference', 'difference(%)',
+               'Minimum(Day)', 'Maximum(Day)', 'Minimum(Year)', 'Maximum(Year)']
+    market_data.rename(columns={0: 'Stock Name',
+                                1: 'Previous Close',
+                                2: 'Current Price',
+                                3: 'Minimum(Day)',
+                                4: 'Maximum(Day)',
+                                5: 'Minimum(Year)',
+                                6: 'Maximum(Year)',
+                                7: 'Last Update',
+                                8: 'difference',
+                                9: 'difference(%)'}, inplace=True)
+    market_data = market_data.round(2)
+    market_data['Last Update'] = pd.to_datetime(market_data['Last Update'])
+    lastest_date = market_data.groupby(['Stock Name'])['Last Update'].max().reset_index()['Last Update']
+    filtered_df = market_data[market_data['Last Update'].isin(lastest_date)]
+    filtered_df = filtered_df[columns]
+
+    return filtered_df, lastest_date[0]
