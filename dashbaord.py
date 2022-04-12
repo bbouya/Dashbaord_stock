@@ -61,7 +61,7 @@ def get_filtered_data():
 
 
 def overall_market_data():
-    market_data = pd.read_csv('data/market.csv', header=None)
+    market_data = pd.read_csv('data/stock.csv', header=None)
     columns = ['Stock Name', 'Previous Close', 'Current Price', 'difference', 'difference(%)',
                'Minimum(Day)', 'Maximum(Day)', 'Minimum(Year)', 'Maximum(Year)']
     market_data.rename(columns={0: 'Stock Name',
